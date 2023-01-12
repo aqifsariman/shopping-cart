@@ -1,4 +1,4 @@
-package shoppingCart;
+package shoppingCart1;
 
 public class Constants {
     public static final String LIST = "list";

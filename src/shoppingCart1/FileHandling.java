@@ -1,4 +1,4 @@
-package shoppingCart;
+package shoppingCart1;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -45,6 +45,8 @@ public class FileHandling {
         this.readerWriter = new ReaderWriter(this.path);
         readerWriter.readFile(nameChosen);
         String line;
+        int numOfItemsRemoved = 0;
+        boolean itemRemoved = false;
 
         if (!madeChanges) {
             // READS ALL THE LINE IN THE FILE
@@ -60,7 +62,16 @@ public class FileHandling {
         } else {
             String[] lineArray = userItems.toString().trim().split(" ");
             for (int i = 0; i < lineArray.length; i++) {
-                System.out.printf("%d. %s\n", i + 1, lineArray[i]);
+                if (lineArray[i].isEmpty()) {
+                    itemRemoved = true;
+                    numOfItemsRemoved++;
+                    continue;
+                }
+                if (!itemRemoved) {
+                    System.out.printf("%d. %s\n", i + 1, lineArray[i]);
+                } else {
+                    System.out.printf("%d. %s\n", i + 1 - numOfItemsRemoved, lineArray[i]);
+                }
             }
         }
     }
@@ -79,8 +90,9 @@ public class FileHandling {
         }
         if (outputString.equalsIgnoreCase("")) {
             System.out.println("Nothing new added to the cart.");
+        } else {
+            System.out.println(outputString += "added to the cart.");
         }
-        System.out.println(outputString += "added to the cart.");
     }
 
     public void delete(int index) throws IOException {
@@ -94,7 +106,6 @@ public class FileHandling {
             if (i == index) {
                 System.out.printf("Removed %s from cart.\n", userItemsArr[i]);
                 itemRemoved = userItemsArr[i];
-                userItemsString += "";
                 continue;
             }
             userItemsString += userItemsArr[i] + " ";
